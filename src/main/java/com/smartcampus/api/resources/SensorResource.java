@@ -9,6 +9,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.Collection;
+import java.util.stream.Collectors;
 
 /**
  * JAX-RS Resource for managing campus Sensors.
@@ -20,8 +21,14 @@ public class SensorResource {
     private final DataRepository repository = DataRepository.getInstance();
 
     @GET
-    public Collection<Sensor> getSensors() {
-        return repository.getAllSensors();
+    public Collection<Sensor> getSensors(@QueryParam("type") String type) {
+        Collection<Sensor> allSensors = repository.getAllSensors();
+        if (type != null && !type.isEmpty()) {
+            return allSensors.stream()
+                    .filter(s -> s.getType().equalsIgnoreCase(type))
+                    .collect(Collectors.toList());
+        }
+        return allSensors;
     }
 
     @POST
@@ -35,5 +42,24 @@ public class SensorResource {
         }
         repository.addSensor(sensor);
         return Response.status(Response.Status.CREATED).entity(sensor).build();
+    }
+
+    @GET
+    @Path("/{sensorId}")
+    public Response getSensor(@PathParam("sensorId") String sensorId) {
+        return repository.getSensor(sensorId)
+                .map(sensor -> Response.ok(sensor).build())
+                .orElseGet(() -> {
+                    ErrorMessage error = new ErrorMessage("Sensor not found.", 404);
+                    return Response.status(Response.Status.NOT_FOUND).entity(error).build();
+                });
+    }
+
+    @Path("/{sensorId}/readings")
+    public SensorReadingResource getReadingResource(@PathParam("sensorId") String sensorId) {
+        if (!repository.getSensor(sensorId).isPresent()) {
+            throw new NotFoundException("Sensor not found.");
+        }
+        return new SensorReadingResource(sensorId);
     }
 }
