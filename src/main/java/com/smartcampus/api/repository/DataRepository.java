@@ -54,4 +54,49 @@ public class DataRepository {
             }
         }
     }
+
+    // ─── Sensor Operations ──────────────────────────────────────────────────
+
+    public Collection<Sensor> getAllSensors() {
+        return sensors.values();
+    }
+
+    public Optional<Sensor> getSensor(String id) {
+        return Optional.ofNullable(sensors.get(id));
+    }
+
+    public void addSensor(Sensor sensor) {
+        sensors.put(sensor.getId(), sensor);
+        Room room = rooms.get(sensor.getRoomId());
+        if (room != null && !room.getSensorIds().contains(sensor.getId())) {
+            room.getSensorIds().add(sensor.getId());
+        }
+    }
+
+    public void removeSensor(String sensorId) {
+        Sensor sensor = sensors.remove(sensorId);
+        if (sensor != null) {
+            Room room = rooms.get(sensor.getRoomId());
+            if (room != null) {
+                room.getSensorIds().remove(sensorId);
+            }
+            readings.remove(sensorId);
+        }
+    }
+
+    // ─── Sensor Reading Operations ──────────────────────────────────────────
+
+    public List<SensorReading> getReadingsForSensor(String sensorId) {
+        return readings.getOrDefault(sensorId, Collections.emptyList());
+    }
+
+    public void addReading(String sensorId, SensorReading reading) {
+        readings.computeIfAbsent(sensorId, k -> Collections.synchronizedList(new ArrayList<>()))
+                .add(reading);
+
+        Sensor sensor = sensors.get(sensorId);
+        if (sensor != null) {
+            sensor.setCurrentValue(reading.getValue());
+        }
+    }
 }
