@@ -1,6 +1,7 @@
 package com.smartcampus.api.resources;
 
 import com.smartcampus.api.exceptions.ErrorMessage;
+import com.smartcampus.api.exceptions.RoomNotEmptyException;
 import com.smartcampus.api.models.Room;
 import com.smartcampus.api.repository.DataRepository;
 
@@ -35,5 +36,30 @@ public class RoomResource {
         }
         repository.addRoom(room);
         return Response.status(Response.Status.CREATED).entity(room).build();
+    }
+
+    @GET
+    @Path("/{roomId}")
+    public Response getRoom(@PathParam("roomId") String roomId) {
+        return repository.getRoom(roomId)
+                .map(room -> Response.ok(room).build())
+                .orElseGet(() -> {
+                    ErrorMessage error = new ErrorMessage("Room not found.", 404);
+                    return Response.status(Response.Status.NOT_FOUND).entity(error).build();
+                });
+    }
+
+    @DELETE
+    @Path("/{roomId}")
+    public Response deleteRoom(@PathParam("roomId") String roomId) {
+        Room room = repository.getRoom(roomId)
+                .orElseThrow(() -> new NotFoundException(Response.status(Response.Status.NOT_FOUND).build()));
+
+        if (!room.getSensorIds().isEmpty()) {
+            throw new RoomNotEmptyException("Cannot decommission room with active sensors.");
+        }
+
+        repository.removeRoom(roomId);
+        return Response.noContent().build();
     }
 }
