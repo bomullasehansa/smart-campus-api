@@ -88,3 +88,35 @@ Theory answers are in this README (below) and also in [REPORT.md](./REPORT.md) f
 | POST | `/api/v1/sensors/{sensorId}/readings` | Add a new reading (updates sensor's currentValue) |
 
 ---
+
+## Sample Interactions (curl)
+
+### 1. Discovery Endpoint
+```bash
+curl -X GET http://localhost:8080/api/v1
+```
+
+### 2. Create a Room
+```bash
+curl -X POST http://localhost:8080/api/v1/rooms \
+     -H "Content-Type: application/json" \
+     -d '{"id": "LIB-301", "name": "Library Quiet Study", "capacity": 50}'
+```
+
+---
+
+## Conceptual Report (Theory Answers)
+
+### Part 1: Service Architecture
+
+**Q1: Explain the default lifecycle of a JAX-RS Resource class and the synchronization impact.**
+
+By default, JAX-RS Resource classes are **request-scoped** — a fresh instance is created for every incoming HTTP request and discarded after the response is sent. This promotes thread isolation but means resource classes cannot safely store persistent state in instance variables.
+
+For the Smart Campus API, which requires persistent in-memory data, this means all shared state must live in an external **Singleton** (`DataRepository`). We use `ConcurrentHashMap` and `Collections.synchronizedList()` to prevent race conditions when multiple clients interact with the API simultaneously.
+
+---
+
+**Q2: Why is HATEOAS considered a hallmark of advanced RESTful design?**
+
+HATEOAS (Hypermedia as the Engine of Application State) means the server embeds navigational links in every response. This decoupling allows the server to change URL structures without breaking clients, as they follow links rather than hard-coding paths.
