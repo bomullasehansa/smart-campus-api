@@ -28,7 +28,7 @@ It manages campus **Rooms**, **Sensors** (CO2, Temperature, Occupancy, etc.), an
 
 1. **Clone the repository:**
    ```bash
-   git clone <your-repo-url>
+   git clone https://github.com/bomullasehansa/smart-campus-api.git
    cd smart-campus-api
    ```
 
