@@ -1,11 +1,3 @@
-# Smart Campus API - Conceptual Report
-
-**Module:** Client-Server Architectures (5COSC022W)  
-**Student:** [Your Name]  
-**University:** University of Westminster  
-
----
-
 ## Part 1: Service Architecture & Setup
 
 ### Q1: Explain the default lifecycle of a JAX-RS Resource class.

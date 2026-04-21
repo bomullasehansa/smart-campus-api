@@ -37,6 +37,10 @@ public class SensorResource {
             ErrorMessage error = new ErrorMessage("Sensor 'id' is required.", 400);
             return Response.status(Response.Status.BAD_REQUEST).entity(error).build();
         }
+        if (repository.getSensor(sensor.getId()).isPresent()) {
+            ErrorMessage error = new ErrorMessage("Sensor with ID '" + sensor.getId() + "' already exists.", 409);
+            return Response.status(Response.Status.CONFLICT).entity(error).build();
+        }
         if (!repository.getRoom(sensor.getRoomId()).isPresent()) {
             throw new LinkedResourceNotFoundException("Room with ID '" + sensor.getRoomId() + "' not found.");
         }
