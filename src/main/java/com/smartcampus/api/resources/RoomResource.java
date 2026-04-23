@@ -62,4 +62,12 @@ public class RoomResource {
         repository.removeRoom(roomId);
         return Response.noContent().build();
     }
+
+    @GET
+    @Path("/crash")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response crash() {
+        throw new RuntimeException("Deliberate crash for testing");
+    }
+
 }
