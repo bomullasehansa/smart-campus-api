@@ -1,203 +1,638 @@
 {
-	"info": {
-		"_postman_id": "b1a2c3d4-e5f6-4a5b-8c9d-d1e2f3a4b5c6",
-		"name": "Smart Campus API Tests",
-		"description": "Collection for testing the Smart Campus Sensor & Room Management API",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
-	},
-	"item": [
-		{
-			"name": "Discovery",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{baseUrl}}/api/v1",
-					"host": ["{{baseUrl}}"],
-					"path": ["api", "v1"]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Rooms",
-			"item": [
-				{
-					"name": "Get All Rooms",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{baseUrl}}/api/v1/rooms",
-							"host": ["{{baseUrl}}"],
-							"path": ["api", "v1", "rooms"]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Create Room",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"id\": \"LIB-301\",\n    \"name\": \"Library Quiet Study\",\n    \"capacity\": 50\n}"
-						},
-						"url": {
-							"raw": "{{baseUrl}}/api/v1/rooms",
-							"host": ["{{baseUrl}}"],
-							"path": ["api", "v1", "rooms"]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get Specific Room",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{baseUrl}}/api/v1/rooms/LIB-301",
-							"host": ["{{baseUrl}}"],
-							"path": ["api", "v1", "rooms", "LIB-301"]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Delete Room (Constraint Check)",
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "{{baseUrl}}/api/v1/rooms/LIB-301",
-							"host": ["{{baseUrl}}"],
-							"path": ["api", "v1", "rooms", "LIB-301"]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "Sensors",
-			"item": [
-				{
-					"name": "Create Sensor (Valid)",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"id\": \"TEMP-001\",\n    \"type\": \"Temperature\",\n    \"status\": \"ACTIVE\",\n    \"roomId\": \"LIB-301\"\n}"
-						},
-						"url": {
-							"raw": "{{baseUrl}}/api/v1/sensors",
-							"host": ["{{baseUrl}}"],
-							"path": ["api", "v1", "sensors"]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Create Sensor (Invalid Room - 422)",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"id\": \"TEMP-999\",\n    \"type\": \"Temperature\",\n    \"status\": \"ACTIVE\",\n    \"roomId\": \"NON-EXISTENT\"\n}"
-						},
-						"url": {
-							"raw": "{{baseUrl}}/api/v1/sensors",
-							"host": ["{{baseUrl}}"],
-							"path": ["api", "v1", "sensors"]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get Sensors (with Filter)",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{baseUrl}}/api/v1/sensors?type=Temperature",
-							"host": ["{{baseUrl}}"],
-							"path": ["api", "v1", "sensors"],
-							"query": [
-								{
-									"key": "type",
-									"value": "Temperature"
-								}
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "Readings",
-			"item": [
-				{
-					"name": "Add Reading",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"value\": 22.5\n}"
-						},
-						"url": {
-							"raw": "{{baseUrl}}/api/v1/sensors/TEMP-001/readings",
-							"host": ["{{baseUrl}}"],
-							"path": ["api", "v1", "sensors", "TEMP-001", "readings"]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get Readings History",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{baseUrl}}/api/v1/sensors/TEMP-001/readings",
-							"host": ["{{baseUrl}}"],
-							"path": ["api", "v1", "sensors", "TEMP-001", "readings"]
-						}
-					},
-					"response": []
-				}
-			]
-		}
-	],
-	"variable": [
-		{
-			"key": "baseUrl",
-			"value": "http://localhost:8080"
-		}
-	]
+  "info": {
+    "_postman_id": "91396b29-617b-46de-a9e7-9fdaa83bd760",
+    "name": "Smart Campus API Tests",
+    "description": "Collection for testing the Smart Campus Sensor & Room Management API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "52647476",
+    "_collection_link": "https://go.postman.co/collection/52647476-91396b29-617b-46de-a9e7-9fdaa83bd760?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Rooms",
+      "item": [
+        {
+          "name": "Get All Rooms",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/v1/rooms",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "rooms"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Room",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"id\": \"LIB-301\",\n    \"name\": \"Library Quiet Study\",\n    \"capacity\": 50\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/v1/rooms",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "rooms"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Specific Room",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/api/v1/rooms/LIB-301",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "rooms",
+                "LIB-301"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Room Not Found (404)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/api/v1/rooms/FAKE-999",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "rooms",
+                "FAKE-999"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Room Again (Idempotency)",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/api/v1/rooms/FAKE-999",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "rooms",
+                "FAKE-999"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Duplicate Room (409)",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"id\": \"LIB-301\",\r\n  \"name\": \"Library Quiet Study\",\r\n  \"capacity\": 50\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/v1/rooms",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "rooms"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Room (Constraint Check)",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/api/v1/rooms/LIB-301",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "rooms",
+                "LIB-301"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Sensors",
+      "item": [
+        {
+          "name": "Create Sensor (Valid)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": \"TEMP-001\",\n  \"type\": \"Temperature\",\n  \"status\": \"ACTIVE\",\n  \"currentValue\": 0.0,\n  \"roomId\": \"LIB-301\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/v1/sensors",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "sensors"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Sensor (Invalid Room - 422)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": \"TEMP-999\",\n  \"type\": \"Temperature\",\n  \"status\": \"ACTIVE\",\n  \"currentValue\": 0.0,\n  \"roomId\": \"FAKE-999\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/v1/sensors",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "sensors"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create MAINTENANCE Sensor",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"id\": \"MAINT-001\",\r\n  \"type\": \"CO2\",\r\n  \"status\": \"MAINTENANCE\",\r\n  \"currentValue\": 0.0,\r\n  \"roomId\": \"LIB-301\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/v1/sensors",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "sensors"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create OFFLINE Sensor",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"id\": \"OFFL-001\",\r\n  \"type\": \"Occupancy\",\r\n  \"status\": \"OFFLINE\",\r\n  \"currentValue\": 0.0,\r\n  \"roomId\": \"LIB-301\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/v1/sensors",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "sensors"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Sensors (with Filter)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/api/v1/sensors?type=Temperature",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "sensors"
+              ],
+              "query": [
+                {
+                  "key": "type",
+                  "value": "Temperature"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Specific Sensor",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/api/v1/sensors/TEMP-001",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "sensors",
+                "TEMP-001"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Sensor Not Found (404)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/api/v1/sensors/FAKE-999",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "sensors",
+                "FAKE-999"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Duplicate Sensor (409)",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"id\": \"TEMP-001\",\r\n  \"type\": \"Temperature\",\r\n  \"status\": \"ACTIVE\",\r\n  \"currentValue\": 0.0,\r\n  \"roomId\": \"LIB-301\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/v1/sensors",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "sensors"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Readings",
+      "item": [
+        {
+          "name": "Add Reading",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"value\": 22.5\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/v1/sensors/TEMP-001/readings",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "sensors",
+                "TEMP-001",
+                "readings"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Readings History",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/api/v1/sensors/TEMP-001/readings",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "sensors",
+                "TEMP-001",
+                "readings"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Add Reading MAINTENANCE Sensor (403)",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"value\": 23.5\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/v1/sensors/MAINT-001/readings",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "sensors",
+                "MAINT-001",
+                "readings"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Add Reading OFFLINE Sensor (403)",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"value\": 23.5\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/v1/sensors/OFFLINE-001/readings",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "sensors",
+                "OFFLINE-001",
+                "readings"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Discovery",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/v1",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "v1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Trigger 500 Internal Server Error",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/v1/rooms/crash",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "v1",
+            "rooms",
+            "crash"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Wrong Content Type (415)",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "this is plain text",
+          "options": {
+            "raw": {
+              "language": "text"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/v1/sensors",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "v1",
+            "sensors"
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080"
+    }
+  ]
 }
