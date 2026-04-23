@@ -9,7 +9,7 @@ It manages campus **Rooms**, **Sensors** (CO2, Temperature, Occupancy, etc.), an
 
 | Technology     | Detail                              |
 |----------------|-------------------------------------|
-| Language       | Java 21                             |
+| Language       | Java 17                             |
 | Framework      | JAX-RS (GlassFish Jersey 2.39)      |
 | Embedded Server| Grizzly HTTP Container              |
 | Build Tool     | Maven 3.x                           |
@@ -21,7 +21,7 @@ It manages campus **Rooms**, **Sensors** (CO2, Temperature, Occupancy, etc.), an
 ## Build and Run Instructions
 
 ### Prerequisites
-- **JDK 21** or higher (`java -version` to verify)
+- **JDK 17** or higher (`java -version` to verify)
 - **Maven 3.x** (`mvn -version` to verify)
 
 ### Steps
